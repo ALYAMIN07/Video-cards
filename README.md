@@ -91,10 +91,10 @@ Backend
 ### ECF0F1 (Светло-серый)
 
 # 📊 Модели базы данных
-## User (Пользователь)
+## User
 ### id, username, email, password_hash, role, created_at
 
-## VideoCard (Видеокарта)
+## VideoCard
 ### id, name, manufacturer, memory, memory_type, price
 
 ### in_stock, description, image_url, created_by, created_at
