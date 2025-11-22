@@ -75,7 +75,9 @@ video-cards-shop/
 │
 ├── app.py                 # Основное приложение Flask
 ├── models.py             # Модели базы данных
-├── database.db           # База данных SQLite (создается автоматически)
+├── requirements.txt      # Зависимости проекта
+├── README.md            # Документация
+├── database.db          # База данных SQLite (создается автоматически)
 │
 ├── templates/            # HTML шаблоны
 │   ├── base.html         # Базовый шаблон
