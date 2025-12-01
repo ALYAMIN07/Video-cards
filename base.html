@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Царство графики{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">Царство графики</a>
+            <div class="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">Главная</a>
+                <a href="{{ url_for('all_cards') }}" class="nav-link">Все видеокарты</a>
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin() %}
+                        <a href="{{ url_for('add_card') }}" class="nav-link">Добавить карту</a>
+                    {% endif %}
+                    <span class="nav-user">Привет, {{ current_user.username }}!</span>
+                    <a href="{{ url_for('logout') }}" class="nav-link">Выйти</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">Войти</a>
+                    <a href="{{ url_for('register') }}" class="nav-link">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Flash сообщения -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Царство графики. Все права защищены.</p>
+    </footer>
+
+<script>
+// Динамическое изменение цвета select при выборе производителя
+document.addEventListener('DOMContentLoaded', function() {
+    const manufacturerSelects = document.querySelectorAll('select[name="manufacturer"]');
+
+    manufacturerSelects.forEach(select => {
+        select.addEventListener('change', function() {
+            // Удаляем предыдущие классы
+            this.classList.remove('nvidia-selected', 'amd-selected', 'intel-selected');
+
+            // Добавляем соответствующий класс
+            if (this.value === 'NVIDIA') {
+                this.classList.add('nvidia-selected');
+            } else if (this.value === 'AMD') {
+                this.classList.add('amd-selected');
+            } else if (this.value === 'Intel') {
+                this.classList.add('intel-selected');
+            }
+        });
+
+        // Инициализируем при загрузке
+        if (select.value) {
+            select.dispatchEvent(new Event('change'));
+        }
+    });
+});
+</script>
+{% if current_user.is_authenticated %}
+    {% if current_user.is_admin() %}
+    {% endif %}
+{% else %}
+    <a href="{{ url_for('login') }}" class="nav-link">Войти</a>
+    <a href="{{ url_for('register') }}" class="nav-link">Регистрация</a>
+{% endif %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=1.1">
+</body>
+</html>
